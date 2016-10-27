@@ -1,5 +1,5 @@
 
-m collections import deque
+from collections import deque
 import logging
 
 import discord
@@ -14,6 +14,7 @@ bot = discord.Client()
 
 
 def filtered(messages):
+    """Filter bot input so other bots don't interfere"""
 
     for message in messages:
 
@@ -25,7 +26,7 @@ loaded = False
 
 @bot.event
 async def on_ready():
-
+    """Manage bot status"""
     await bot.change_status(discord.Game(name = 'like a real teenager'))
 
 @bot.event
@@ -48,20 +49,24 @@ async def on_message(message):
             print('Successfully loaded', len(text), 'messages')
 
         if bot.user in message.mentions:
+            if message.channel.id == 212398132518977536:
+            # changed this line
+                if 'help me' in message.content.lower():
 
-            if 'help me' in message.content.lower():
+                    await bot.send_message(message.channel, 'I am a real teenager. Why would you want any help?\nAnyway, I can make up sentences with the stuff you say here, and act like I came from a specific subreddit when you write `be_like <subreddit>`.')
+                    return
 
-                await bot.send_message(message.channel, 'I am a real teenager. Why would you want any help?\nAnyway, I can make up sentences with the stuff you say here, and act like I came from a specific subreddit when you write `be_like <subreddit>`.')
+                reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
+            
+                if reply:
+
+                    print('\t<Legit Teenager> ', reply)
+                    await bot.send_message(212398132518977536, reply)
+                    # changed this line also, just for kicks
+            else:
                 return
-
-            reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
-            if reply:
-
-                print('\t<Legit Teenager> ', reply)
-                await bot.send_message(message.channel, reply)
-
+            # added this in conjunction with if statement above to make sure only bot-commands can use it
         else:
-
             text.extend(filtered([message]))
 
 
@@ -72,5 +77,4 @@ try:
 except:
 
     with open('saved.txt', 'w') as session:
-
-session.write('\n\n'.join(text))
+        session.write('\n\n'.join(text))
