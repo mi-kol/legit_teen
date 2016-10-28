@@ -1,10 +1,13 @@
-
 from collections import deque
 import logging
 
 import discord
 import markovify
 import random
+import asyncio
+import schedule
+import time
+
 
 
 
@@ -12,11 +15,18 @@ text = deque(maxlen = 2 ** 16)
 logging.basicConfig(level = logging.INFO)
 
 bot = discord.Client()
+members = []
 
 def tag(id):
     """Convert standard id number into a tag that will ping someone."""
     return "<@!" + id + ">"
 
+def refreshPeople():
+    global members
+    for member in bot.get_all_members():
+        members.append(member.id)
+
+schedule.every().day.at("12:00").do(refreshPeople)
 
 def filtered(messages):
     """Filter bot input so other bots don't interfere"""
@@ -32,13 +42,15 @@ loaded = False
 @bot.event
 async def on_ready():
     """Manage bot status"""
+    refreshPeople()
     await bot.change_status(discord.Game(name = 'like a real teenager'))
 
 @bot.event
 async def on_message(message):
     """Parse input from discord channel Bot Commands"""
     global loaded
-    members = []
+    global members
+
 
     if message.channel.name == 'bot_commands' and message.author != bot.user:
         if not loaded:
@@ -65,10 +77,6 @@ async def on_message(message):
                 elif 'dmk' in message.content.lower():
                     # added by request of sunny. when tagged with DMK, it will tag three random people.
                     selected = []
-
-                    for member in bot.get_all_members():
-                        members.append(member.id)
-                    # horrendously inefficient
                         
                     for x in range(0, 3):
                         selected.append(random.choice(members))
@@ -90,7 +98,7 @@ async def on_message(message):
 try:
 
     bot.run('MjExNTc4MDQ3MDkzMDE0NTI5.CofW7Q.h0jCedeWCouTkcj5F9esOdiHnb8')
-    # DO NOT UNCOMMENT: bot.run('MjQwMTg1MzQ2ODc5NTIwNzcw.Cu_ppg.d3GoatugzCK3aV_PKmk8yB0SS8w')
+    # DO NOT UNCOMMENT bot.run('MjQwMTg1MzQ2ODc5NTIwNzcw.Cu_ppg.d3GoatugzCK3aV_PKmk8yB0SS8w')
 
 except:
 
