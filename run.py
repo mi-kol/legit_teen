@@ -7,6 +7,7 @@ import random
 import asyncio
 import schedule
 import time
+import os
 
 
 
@@ -69,10 +70,10 @@ async def on_message(message):
             reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
             if message.channel.name == 'bot_commands':
             # (old) added this line so only works in bot commands
-                if 'help me' in message.content.lower():
-
-                    await bot.send_message(message.channel, 'I am a real teenager. Why would you want any help?\nAnyway, I can make up sentences with the stuff you say here, and act like I came from a specific subreddit when you write `be_like <subreddit>`.')
-                    return
+                if 'restart' in message.content.lower() and message.author.name == "khsunny786#7666":
+                    os.exec*()
+                    # await bot.send_message(message.channel, 'I am a real teenager. Why would you want any help?\nAnyway, I can make up sentences with the stuff you say here, and act like I came from a specific subreddit when you write `be_like <subreddit>`.')
+                    # return
 
                 elif 'dmk' in message.content.lower():
                     # added by request of sunny. when tagged with DMK, it will tag three random people.
