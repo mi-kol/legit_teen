@@ -4,6 +4,7 @@ import logging
 
 import discord
 import markovify
+import random
 
 
 
@@ -11,6 +12,10 @@ text = deque(maxlen = 2 ** 16)
 logging.basicConfig(level = logging.INFO)
 
 bot = discord.Client()
+
+def tag(id):
+    """Convert standard id number into a tag that will ping someone."""
+    return "<@!" + id + ">"
 
 
 def filtered(messages):
@@ -31,11 +36,11 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    """Parse input from discord channel Bot Commands"""
     global loaded
+    members = []
 
-
-    if message.channel.name == 'teenagers' and message.author != bot.user:
-
+    if message.channel.name == 'bot_commands' and message.author != bot.user:
         if not loaded:
 
             loaded = True
@@ -49,23 +54,35 @@ async def on_message(message):
             print('Successfully loaded', len(text), 'messages')
 
         if bot.user in message.mentions:
-            if message.channel.id == 212398132518977536:
-            # changed this line
+            reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
+            if message.channel.name == 'bot_commands':
+            # (old) added this line so only works in bot commands
                 if 'help me' in message.content.lower():
 
                     await bot.send_message(message.channel, 'I am a real teenager. Why would you want any help?\nAnyway, I can make up sentences with the stuff you say here, and act like I came from a specific subreddit when you write `be_like <subreddit>`.')
                     return
 
-                reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
-            
-                if reply:
+                elif 'dmk' in message.content.lower():
+                    # added by request of sunny. when tagged with DMK, it will tag three random people.
+                    selected = []
 
+                    for member in bot.get_all_members():
+                        members.append(member.id)
+                    # horrendously inefficient
+                        
+                    for x in range(0, 3):
+                        selected.append(random.choice(members))
+
+                    await bot.send_message(message.channel, tag(selected[0]) + " " + tag(selected[1]) + tag(selected[2]))
+                    return
+            
+                else:
                     print('\t<Legit Teenager> ', reply)
-                    await bot.send_message(212398132518977536, reply)
-                    # changed this line also, just for kicks
+                    await bot.send_message(message.channel, reply)
+                    # (old) [CHANGE REVERSED] changed this just for kicks
             else:
                 return
-            # added this in conjunction with if statement above to make sure only bot-commands can use it
+            # (old) added this in conjunction with if statement above to make sure only bot-commands can use it
         else:
             text.extend(filtered([message]))
 
@@ -73,8 +90,10 @@ async def on_message(message):
 try:
 
     bot.run('MjExNTc4MDQ3MDkzMDE0NTI5.CofW7Q.h0jCedeWCouTkcj5F9esOdiHnb8')
+    # DO NOT UNCOMMENT: bot.run('MjQwMTg1MzQ2ODc5NTIwNzcw.Cu_ppg.d3GoatugzCK3aV_PKmk8yB0SS8w')
 
 except:
 
     with open('saved.txt', 'w') as session:
         session.write('\n\n'.join(text))
+
