@@ -45,6 +45,10 @@ async def on_ready():
     """Manage bot status"""
     refreshPeople()
     await bot.change_status(discord.Game(name = 'like a real teenager'))
+    if not os.path.isfile("saved.txt"):
+        with open('saved.txt', 'w') as session:
+            session.write('\n\n'.join(text))
+        
 
 @bot.event
 async def on_message(message):
@@ -98,8 +102,8 @@ async def on_message(message):
 
 try:
 
-    bot.run('MjExNTc4MDQ3MDkzMDE0NTI5.CofW7Q.h0jCedeWCouTkcj5F9esOdiHnb8')
-    # DO NOT UNCOMMENT bot.run('MjQwMTg1MzQ2ODc5NTIwNzcw.Cu_ppg.d3GoatugzCK3aV_PKmk8yB0SS8w')
+    # bot.run('MjExNTc4MDQ3MDkzMDE0NTI5.CofW7Q.h0jCedeWCouTkcj5F9esOdiHnb8')
+    bot.run('MjQwMTg1MzQ2ODc5NTIwNzcw.Cu_ppg.d3GoatugzCK3aV_PKmk8yB0SS8w')
 
 except:
 
