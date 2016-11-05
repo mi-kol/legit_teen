@@ -34,7 +34,7 @@ async def on_message(message):
 
         async for message in bot.logs_from(discord.Object(id='235888301930708992'), limit = 1024):
 
-            if message.channel.name == 'general' and message.author != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
+            if message.author != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
 
                 text.append(message.content)
 
