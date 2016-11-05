@@ -11,18 +11,11 @@ logging.basicConfig(level = logging.INFO)
 
 bot = discord.Client()
 
-@bot.event
-async def botDirect():
-        while True:
-                x = ("")
-                await bot.say(x)
-
-
 def filtered(messages):
 
     for message in messages:
 
-        if message.channel.name == 'general' and message.author.name != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!') and not message.content.startswith('be_like '):
+        if message.channel.name == 'general' and message.author != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!') and not message.content.startswith('be_like '):
 
             yield message.content
 
@@ -31,7 +24,7 @@ loaded = False
 @bot.event
 async def on_ready():
 
-    await bot.change_status(discord.Game(name = 'like a real boy'))
+    await bot.change_status(discord.Game(name = 'like a real teenager'))
 
 @bot.event
 async def on_message(message):
@@ -46,7 +39,7 @@ async def on_message(message):
             logs = bot.logs_from(message.channel, limit = 1024)
             async for message in logs:
 
-                if message.channel.name == 'general' and message.author.name != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
+                if message.channel.name == 'general' and message.author != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
 
                     text.append(message.content)
 
