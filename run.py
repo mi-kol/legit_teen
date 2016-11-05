@@ -21,33 +21,31 @@ def filtered(messages):
 
 loaded = False
 
+
 @bot.event
 async def on_ready():
+    await bot.change_status(discord.Game(name='like a real teenager'))
 
-    await bot.change_status(discord.Game(name = 'like a real teenager'))
 
 @bot.event
 async def on_message(message):
     global loaded
+    if not loaded:
 
+        async for message in bot.logs_from(discord.Object(id='235888301930708992'), limit = 1024):
+
+            if message.channel.name == 'general' and message.author != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
+
+                text.append(message.content)
+
+        print('Successfully loaded', len(text), 'messages')
+        loaded = True
 
     if message.author != bot.user:
 
-        if not loaded:
-
-            loaded = True
-            logs = bot.logs_from(message.channel, limit = 1024)
-            async for message in logs:
-
-                if message.channel.name == 'general' and message.author != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
-
-                    text.append(message.content)
-
-            print('Successfully loaded', len(text), 'messages')
-
         if bot.user in message.mentions and message.channel.name == 'bot_commands':
 
-            reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
+            reply = markovify.NewlineText('\n'.join(text), state_size=1).make_sentence()
             if reply:
 
                 print('\t<Legit Teen> ', reply)
@@ -60,7 +58,7 @@ async def on_message(message):
 
 try:
 
-    bot.run(yokel)
+    bot.run("yodelalaeehu")
 
 except:
 
