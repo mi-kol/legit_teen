@@ -22,7 +22,7 @@ def filtered(messages):
 
     for message in messages:
 
-        if message.channel.name == 'bot_commands' and message.author.name != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!') and not message.content.startswith('be_like '):
+        if message.channel.name == 'general' and message.author.name != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!') and not message.content.startswith('be_like '):
 
             yield message.content
 
@@ -57,7 +57,7 @@ async def on_message(message):
             reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
             if reply:
 
-                print('\t<Legit N3wt> ', reply)
+                print('\t<Legit Teen> ', reply)
                 await bot.send_message(message.channel, reply)
 
         else:
