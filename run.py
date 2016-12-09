@@ -60,7 +60,7 @@ async def on_message(message):
             logs = bot.logs_from(message.channel, limit = 256)
             async for message in logs:
 
-                if message.channel.name == 'teenagers' and message.author.name != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
+                if message.channel.name == 'general' and message.author.name != 'Tatsumaki#8792' and message.author != bot.user and bot.user not in message.mentions and not message.content.startswith('t!'):
 
                     text.append(message.content)
 
@@ -70,25 +70,9 @@ async def on_message(message):
             reply = markovify.NewlineText('\n'.join(text), state_size = 1).make_sentence()
             if message.channel.name == 'bot_commands':
             # (old) added this line so only works in bot commands
-                if 'restart' in message.content.lower() and message.author.name == "khsunny786#7666":
-                    os.exec*()
-                    # await bot.send_message(message.channel, 'I am a real teenager. Why would you want any help?\nAnyway, I can make up sentences with the stuff you say here, and act like I came from a specific subreddit when you write `be_like <subreddit>`.')
-                    # return
-
-                elif 'dmk' in message.content.lower():
-                    # added by request of sunny. when tagged with DMK, it will tag three random people.
-                    selected = []
-                        
-                    for x in range(0, 3):
-                        selected.append(random.choice(members))
-
-                    await bot.send_message(message.channel, tag(selected[0]) + " " + tag(selected[1]) + tag(selected[2]))
-                    return
-            
-                else:
-                    print('\t<Legit Teenager> ', reply)
-                    await bot.send_message(message.channel, reply)
-                    # (old) [CHANGE REVERSED] changed this just for kicks
+                print('\t<Legit Teenager> ', reply)
+                await bot.send_message(message.channel, reply)
+                # (old) [CHANGE REVERSED] changed this just for kicks
             else:
                 return
             # (old) added this in conjunction with if statement above to make sure only bot-commands can use it
@@ -98,8 +82,7 @@ async def on_message(message):
 
 try:
 
-    bot.run('MjExNTc4MDQ3MDkzMDE0NTI5.CofW7Q.h0jCedeWCouTkcj5F9esOdiHnb8')
-    # DO NOT UNCOMMENT bot.run('MjQwMTg1MzQ2ODc5NTIwNzcw.Cu_ppg.d3GoatugzCK3aV_PKmk8yB0SS8w')
+    bot.run(token)
 
 except:
 
